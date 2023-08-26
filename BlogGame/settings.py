@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'tinymce',
     'base',
     'blog',
 ]
@@ -126,7 +127,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 STATICFILES_DIRS = (
-    # location of your application, should not be public web accessible 
+    # location of your application, should not be public web accessible
     './static',
 )
 
