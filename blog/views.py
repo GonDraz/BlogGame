@@ -7,6 +7,6 @@ def blog(request):
     return render(request, 'blog/blog.html', Data)
 
 
-def post(request, id):
-    post = Post.objects.get(id=id)
+def post(request, slug):
+    post = Post.objects.get(slug=slug)
     return render(request, 'blog/post.html', {'post': post})

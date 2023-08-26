@@ -4,6 +4,6 @@
 
 {% block content %}
 {% for post in Posts %}
-<h4>{{post.date|date:"d-m-Y"}}<a href="/blog/{{post.title}}">{{post.title}}</a></h4>
+<h4>{{post.date|date:"d-m-Y"}}<a href="/blog/{{post.slug}}">{{post.title}}</a></h4>
 {% endfor %}
 {% endblock %}
