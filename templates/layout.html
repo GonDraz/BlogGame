@@ -8,13 +8,11 @@
 
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" type="text/css" />
-
     <title>{% block title %}{% endblock title %}</title>
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 </head>
 
 <body>
-
-
     {% include "menu.html" %}
 
     {% block content %}{% endblock content %}
