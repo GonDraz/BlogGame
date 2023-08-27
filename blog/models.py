@@ -6,10 +6,11 @@ from tinymce.models import HTMLField
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
-    content = HTMLField(default="<p>Hello World</p>")
-    date = models.DateTimeField(auto_now_add=True)
+    # thumbnail = models.ImageField()
 
-    slug = models.SlugField(max_length=255)
+    content = HTMLField()
+    date = models.DateTimeField(auto_now_add=True)
+    slug = models.SlugField(default=None, unique=True, null=True)
 
     def __str__(self):
         return self.title

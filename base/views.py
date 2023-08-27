@@ -7,7 +7,7 @@ def base(request):
     return home(request)
 
 def home(request):
-    return render(request, 'base/home.html')
+    return render(request, 'html/pages/home.html')
 
 def contact(request):
-    return render(request, 'base/contact.html')
+    return render(request, 'html/pages/contact.html')
