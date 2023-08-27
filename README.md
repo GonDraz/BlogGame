@@ -37,10 +37,3 @@ python manage.py runserver
 ```
 
 - Goto http://localhost:8000/ and have fun!
-
-
-## Support And Updates
-
-
-## To Everyone
-
