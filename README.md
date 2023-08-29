@@ -22,7 +22,7 @@ cd BlogGame
 - Create a virtual environment to install dependencies in and activate it:
 ```
 python -m venv venv
-venv\scripts\activate
+venv\Scripts\activate
 ```
 
 - Then install the dependencies:
