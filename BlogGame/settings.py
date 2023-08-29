@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-=3ah#llz(!6ir%z)$f_afqzy*g53lkezlekc_0ka=20tv&dtbs
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = ['https://precious-bold-colt.ngrok-free.app']
 
