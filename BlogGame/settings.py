@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from celery.schedules import crontab
 import os
 from pathlib import Path
 
@@ -26,8 +27,9 @@ SECRET_KEY = 'django-insecure-=3ah#llz(!6ir%z)$f_afqzy*g53lkezlekc_0ka=20tv&dtbs
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
+ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://precious-bold-colt.ngrok-free.app']
 
 # Application definition
 
@@ -38,7 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'tinymce',
+    "crispy_forms",
+    "crispy_bootstrap4",
+
+    'accounts',
     'base',
     'blog',
 ]
@@ -81,6 +88,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        "USER": os.environ.get("DB_USER", "username"),
+        "PASSWORD": os.environ.get("DB_PASSWORD", "password"),
+        "HOST": os.environ.get("DB_HOST", "localhost"),
+        "PORT": int(os.environ.get("DB_PORT", 5432)),
     }
 }
 
@@ -199,3 +210,32 @@ LOGIN_REDIRECT_URL = "/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_COOKIE_SECURE = True
+
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+
+
+# chuaw hieu ``````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
+CELERY_BROKER_URL = os.environ.get(
+    "CELERY_BROKER_URL", "redis://localhost:6379")
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = "Asia/Ho_Chi_Minh"
+
+
+CELERY_BEAT_SCHEDULE = {
+    "newsletter_task": {
+        "task": "accounts.tasks.send_newsletter",
+        "schedule": crontab(hour=0),
+    },
+}
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
