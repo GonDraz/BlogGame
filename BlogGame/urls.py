@@ -20,8 +20,8 @@ from django.conf.urls import handler404, handler500
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('tinymce/', include('tinymce.urls')),
+    path('admin/', admin.site.urls, name='admin'),
+    path('tinymce/', include('tinymce.urls'), name='tinymce'),
 
     path('', include('base.urls')),
 ]

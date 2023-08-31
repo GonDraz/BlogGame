@@ -4,6 +4,13 @@ from django.http import HttpResponse
 # Create your views here.
 
 
+pages = 'html/pages/'
+
+
+def import_view(app="", view=str) -> str:
+    return pages + app + view + '.html'
+
+
 def base(request):
     return home(request)
 
