@@ -10,13 +10,13 @@ from PIL import Image
 
 class Author(models.Model):
 
-    first_name = models.CharField(null=False, blank=False, max_length=100)
-    last_name = models.CharField(null=False, blank=False, max_length=20)
+    first_name = models.CharField(default= "",null=False, blank=False, max_length=100)
+    last_name = models.CharField(default= "", null=False, blank=False, max_length=20)
 
     user = models.OneToOneField(
         User, verbose_name=_("User"), on_delete=models.CASCADE)
 
-    birthday = models.DateField(null=False, blank=False)
+    # birthday = models.DateField(null=False, blank=False)
 
     email = models.EmailField(default="@gmail.com",
                               unique=True, null=True, blank=False)
