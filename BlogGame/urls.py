@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import handler404, handler500
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -29,3 +31,8 @@ urlpatterns = [
 handler404 = 'base.views.handler404'
 
 handler500 = 'base.views.handler500'
+
+
+if settings.DEBUG:  # pragma:no cover
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

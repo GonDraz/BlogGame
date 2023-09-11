@@ -3,7 +3,37 @@
 {% block title %}Blog{% endblock %}
 
 {% block content %}
-{% for post in Posts %}
-<h4>{{post.date|date:"d-m-Y"}}<a href="/blog/{{post.slug}}">{{post.title}}</a></h4>
-{% endfor %}
+<div class="col">
+    {% for category in Categorys %}
+    <h2>{{category.title}}</h2>
+    <div class="row gap-4">
+        {% for post in Posts %}
+        <!-- <h4>{{post.date|date:"d-m-Y"}}<a href="/blog/{{post.slug}}">{{post.title}}</a></h4> -->
+        {% for post_category in post.category.all %}
+        {% if post_category == category %}
+        <div class="card " style="width: 360px;">
+            <img src="{{ post.thumbnail.url }}" class="card-img-top img-fluid" alt="..."
+                style="height: 16rem; object-fit: cover;">
+            <div class="card-body">
+                <div style="overflow: auto; ">
+                    <div class="d-inline-flex gap-1">
+                        {% for post_category in post.category.all %}
+                        <a href="#" class="btn btn-primary btn-sm" style="  overflow: hidden;">{{post_category}}</a>
+                        <!-- <a href="#" class="btn btn-primary btn-sm" style="  overflow: hidden;">{{post_category}}</a> -->
+
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <h5 class="card-title">{{post.title}}</h5>
+                <p class="card-text">{{post.overview}}</p>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+
 {% endblock %}

@@ -2,12 +2,16 @@ import logging
 from django.shortcuts import render
 
 from base.views import import_view
-from .models import Post
+from .models import Category, Post
 
 
 def blog(request):
-    Data = {'Posts': Post.objects.all().order_by("-date")}
-    return render(request, import_view(view='blog'), Data)
+    Categorys = Category.objects.all()
+    Ports = Post.objects.all().order_by("-date")
+
+    context = {"Categorys": Categorys, "Posts": Ports}
+
+    return render(request, import_view(view='blog'), context)
 
 
 def post(request, slug):

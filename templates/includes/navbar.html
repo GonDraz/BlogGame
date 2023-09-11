@@ -1,8 +1,10 @@
 <!-- NavBar -->
+{% load static %}
+
 <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <a href="#" class="navbar-brand">
-      <img src="/static/assets/icons/Logo.svg" />
+      <img src="{% static 'assets/icons/Logo.svg' %}" />
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
       aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
