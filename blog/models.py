@@ -27,9 +27,9 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    title = models.CharField(_("Title"), max_length=100)
+    title = models.CharField(_("Title"), max_length=250)
     thumbnail = models.ImageField(
-        _("Thumbnail"), upload_to="thumbnail", blank=True, null=True
+        _("Thumbnail"), upload_to="thumbnail", default=None, unique=True, blank=True, null=True
     )
     overview = models.TextField(_("Overview"), default="")
     author = models.ForeignKey(
