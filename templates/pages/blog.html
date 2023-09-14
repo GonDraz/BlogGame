@@ -3,34 +3,21 @@
 {% block title %}Blog{% endblock %}
 
 {% block content %}
-<div class="col container p-2">
-    {% for category in Categorys %}
-    <h2>{{category.title}}</h2>
-    <div class="row">
-        {% for post in Posts %}
-        {% for post_category in post.category.all %}
-        {% if post_category == category %}
+{% for category in Categorys %}
+<h2>{{category.title}}</h2>
 
-        {% include "includes/widget/port_card.html" %}
-        {% include "includes/widget/port_card.html" %}
-        {% include "includes/widget/port_card.html" %}
-        {% include "includes/widget/port_card.html" %}
-        {% include "includes/widget/port_card.html" %}
-        {% include "includes/widget/port_card.html" %}
-        {% include "includes/widget/port_card.html" %}
-        {% include "includes/widget/port_card.html" %}
-        {% include "includes/widget/port_card.html" %}
-        {% include "includes/widget/port_card.html" %}
-        {% include "includes/widget/port_card.html" %}
-        {% include "includes/widget/port_card.html" %}
-        {% include "includes/widget/port_card.html" %}
-        {% include "includes/widget/port_card.html" %}
-        {% include "includes/widget/modal.html" %}
+<div class="row gx-3 gy-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-4 row-cols-xxl-5">
+    {% for post in Posts %}
 
-        {% endif %}
-        {% endfor %}
-        {% endfor %}
-    </div>
+    {% for post_category in post.category.all %}
+    {% if post_category == category %}
+
+    {% include "includes/widget/port_card.html" %}
+    {% include "includes/widget/modal.html" %}
+
+    {% endif %}
+    {% endfor %}
     {% endfor %}
 </div>
+{% endfor %}
 {% endblock %}

@@ -32,7 +32,7 @@ class Author(models.Model):
         return self.user.get_full_name()
 
     def full_name(self):
-        return self.last_name + self.first_name
+        return self.last_name +" "+ self.first_name
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

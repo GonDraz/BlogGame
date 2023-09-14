@@ -5,17 +5,15 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">{{post.title}}</h4>
+                <h4 class="modal-title"><b>{{post.title}}</b></h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-                <div class="row gap-1">
+                <div class="clearfix">
+                    <img src="{{post.thumbnail.url}}" class="col-md-6 float-md-end mb-3 ms-md-3 img-fluid" alt="...">
                     <div class="col">
-                        <img src="{{post.thumbnail.url}}" class="card-img-top img-fluid" alt="...">
-                    </div>
-                    <div class="col">
-                        <h2>Overview</h2>
+                        <h2><b>Overview</b></h2>
                         <h6>{{post.overview}}</h6>
                     </div>
                 </div>
