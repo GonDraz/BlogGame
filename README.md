@@ -34,6 +34,8 @@ Note the (env) in front of the prompt. This indicates that this terminal session
 ```
 python manage.py migrate
 python manage.py runserver
+python manage.py createsuperuser
 ```
 
 - Goto http://localhost:8000/ and have fun!
+
