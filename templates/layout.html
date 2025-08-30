@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
+{% include "includes/head.html" %}
 
-<head>
-    {% load static %}
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" type="text/css" />
-
-    <title>{% block title %}{% endblock title %}</title>
-</head>
 
 <body>
+    {% include "includes/navbar.html" %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-1">
+            </div>
+            <div class="col-sm-auto">
+                {% block content %}{% endblock content %}
+            </div>
+            <div class="col-sm-1">
+            </div>
+        </div>
+    </div>
 
 
-    {% include "menu.html" %}
-
-    {% block content %}{% endblock content %}
+    {% include "includes/footer.html" %}
 
 </body>
+
 
 </html>

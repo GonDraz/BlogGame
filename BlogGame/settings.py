@@ -10,11 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from celery.schedules import crontab
 import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -26,8 +28,9 @@ SECRET_KEY = 'django-insecure-=3ah#llz(!6ir%z)$f_afqzy*g53lkezlekc_0ka=20tv&dtbs
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = ['https://precious-bold-colt.ngrok-free.app']
 
 # Application definition
 
@@ -38,6 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    "storages",
+    'tinymce',
+    "crispy_forms",
+    "crispy_bootstrap4",
+
+
+    'accounts',
     'base',
     'blog',
 ]
@@ -70,16 +81,32 @@ TEMPLATES = [
     },
 ]
 
+FIXTURE_DIRS = [os.path.join(BASE_DIR, "fixtures")]
 WSGI_APPLICATION = 'BlogGame.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#         "USER": os.environ.get("DB_USER", "username"),
+#         "PASSWORD": os.environ.get("DB_PASSWORD", "password"),
+#         "HOST": os.environ.get("DB_HOST", "localhost"),
+#         "PORT": int(os.environ.get("DB_PORT", 5432)),
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": os.environ.get("DB_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": os.environ.get("DB_NAME", "db.sqlite3"),
+        "USER": os.environ.get("DB_USER", "username"),
+        "PASSWORD": os.environ.get("DB_PASSWORD", "password"),
+        "HOST": os.environ.get("DB_HOST", "localhost"),
+        "PORT": int(os.environ.get("DB_PORT", 5432)),
     }
 }
 
@@ -103,6 +130,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# X_FRAME_OPTIONS = 'sameorigin'
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -120,13 +149,82 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+
 STATIC_URL = "/static/"
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
+# TinyMCE
+
+
+# TINYMCE_DEFAULT_CONFIG = {
+#     "height": "720px",
+#     "width": "1280px",
+#     "menubar": "file edit view insert format tools table help",
+#     "plugins": "fullscreen advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code "
+#     "insertdatetime media table paste code help wordcount spellchecker",
+#     "toolbar": "fullscreen | undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft "
+#     "aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor "
+#     "backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | "
+#     "preview save print | insertfile image media pageembed template link anchor codesample | "
+#     "a11ycheck ltr rtl | showcomments addcomment code",
+#     "custom_undo_redo_levels": 10,
+# }
+
+TINYMCE_DEFAULT_CONFIG = {
+    "height": "720px",    "width": "960px",
+
+    "entity_encoding": "raw",
+    "menubar": "file edit view insert format tools table help",
+    "plugins": 'print preview paste importcss searchreplace autolink autosave save code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap emoticons quickbars',
+    "toolbar": "fullscreen preview | undo redo | bold italic underline forecolor backcolor strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify| image link | "
+    "outdent indent |  numlist bullist checklist | backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | "
+    "",
+    "custom_undo_redo_levels": 50,
+    "quickbars_insert_toolbar": False,
+
+    "file_picker_callback": """function (cb, value, meta) {
+        var input = document.createElement("input");
+        input.setAttribute("type", "file");
+        if (meta.filetype == "image") {
+            input.setAttribute("accept", "image/*");
+        }
+        if (meta.filetype == "media") {
+            input.setAttribute("accept", "video/*");
+        }
+
+        input.onchange = function () {
+            var file = this.files[0];
+            var reader = new FileReader();
+            reader.onload = function () {
+                var id = "blobid" + (new Date()).getTime();
+                var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                var base64 = reader.result.split(",")[1];
+                var blobInfo = blobCache.create(id, file, base64);
+                blobCache.add(blobInfo);
+                cb(blobInfo.blobUri(), { title: file.name });
+            };
+            reader.readAsDataURL(file);
+        };
+        input.click();
+    }""",
+    # "content_style": "body { font-family:Roboto,Helvetica,Arial,sans-serif; font-size:14px }",
+}
+
+
+TINYMCE_SPELLCHECKER = True
+
+TINYMCE_JS_URL = os.path.join(STATIC_URL, 'tinymce/tinymce.min.js')
+
+
 STATICFILES_DIRS = (
-    # location of your application, should not be public web accessible 
+    # location of your application, should not be public web accessible
     './static',
 )
 
@@ -136,3 +234,32 @@ LOGIN_REDIRECT_URL = "/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_COOKIE_SECURE = True
+
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+
+
+# chuaw hieu ``````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
+CELERY_BROKER_URL = os.environ.get(
+    "CELERY_BROKER_URL", "redis://localhost:6379")
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = "Asia/Ho_Chi_Minh"
+
+
+CELERY_BEAT_SCHEDULE = {
+    "newsletter_task": {
+        "task": "accounts.tasks.send_newsletter",
+        "schedule": crontab(hour=0),
+    },
+}
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

@@ -1,0 +1,43 @@
+<!-- The Card -->
+
+<!-- href="{{post.slug}}" -->
+
+<div class="col-auto">
+    <div class="card">
+        <a href="{{post.slug}}">
+            <img src="{{post.thumbnail.url}}" class="card-img-top img-fluid" alt="..."
+                style="height: 10rem; object-fit: cover;">
+        </a>
+        <div class="card-body d-flex flex-column justify-content-between">
+            <div class="overflow-x-auto pb-2">
+                <div class="d-inline-flex gap-1">
+                    {% for post_category in post.category.all %}
+                    <a href="#" class="btn btn-primary btn-sm"
+                        style="  --bs-btn-padding-y: .10rem;">{{post_category}}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <h6 class="card-title"><b>{{post.title}}</b></h6>
+
+            <div class="row align-items-center pb-2">
+                <div class="col-10">
+                    <picture>
+                        <img class="rounded-circle " src="{{post.author.picture.url}}" width="36" height="36"
+                            style="object-fit: cover;">
+                    </picture>
+
+                    <b><small>{{post.author.first_name}}</small></b>
+
+                </div>
+                <small class="col-2 d-flex justify-content-end">{{post.date|date:"d/m/Y"}}</small>
+            </div>
+
+            <div class="card-link btn-group p-0">
+                <a href="{{post.slug}}" class=" btn btn-primary  btn-sm" aria-current="page">Somewhere</a>
+                <a href="#" class="btn btn-primary  btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#{{post.slug}}">Preview</a>
+            </div>
+
+        </div>
+    </div>
+</div>

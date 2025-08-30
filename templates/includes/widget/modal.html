@@ -1,0 +1,29 @@
+<!-- The Modal -->
+<div class="modal" id="{{post.slug}}">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable ">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"><b>{{post.title}}</b></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="clearfix">
+                    <img src="{{post.thumbnail.url}}" class="col-md-6 float-md-end mb-3 ms-md-3 img-fluid" alt="...">
+                    <div class="col">
+                        <h2><b>Overview</b></h2>
+                        <h6>{{post.overview}}</h6>
+                    </div>
+                </div>
+                <!-- <div class="p-1">
+                    <a href="{{post.slug}}" class=" btn btn-primary  container-fluid" aria-current="page">Go
+                        somewhere</a>
+                </div> -->
+
+            </div>
+
+        </div>
+    </div>
+</div>
